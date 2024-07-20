@@ -5,8 +5,6 @@ import path from 'path';
 import url from 'node:url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-// We need to remove the `mochaOpts` from the `baseConfig` to have all
-// Mocha references removed
 const { mochaOpts, ...cleanBaseConfig } = baseConfig;
 
 export const config: WebdriverIO.Config = {
@@ -21,7 +19,6 @@ export const config: WebdriverIO.Config = {
     // ============
     // Framework
     // ============
-    // By default we use the Mocha framework, see the `wdio.shared.conf.ts` which is imported by `./wdio.shared.local.appium.conf.js`. For Cucumber we need to "redefine" the framework
     framework: 'cucumber',
     //
     // You also need to specify where your step definitions are located.
