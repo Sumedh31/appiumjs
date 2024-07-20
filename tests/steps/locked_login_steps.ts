@@ -2,14 +2,15 @@
 import { Given, When, Then } from '@wdio/cucumber-framework';
 import MainScreen from '../screenobjects/MainScreen.js';
 
-Given(/^I am on the (login|signup) tab$/, async (tab) => {
+Given(/^I am on the locked login tab$/, async () => {
     await MainScreen.waitForAppToLoad();
 });
 
-When(/^I enter valid (login|signup) credentials$/, async (formType) => {
-    await MainScreen.ValidLogin('bob@example.com', '10203040');
+When(/^I enter invalid login credentials "([^"]*)" and "([^"]*)"$/, async (email: string, password: string) => {
+    await MainScreen.ValidLogin(email, password);
 });
 
-Then(/^I should see a (Success|Signed Up) alert$/, async (alertType) => {
+Then(/^I should see a Locked alert$/, async () => {
     await MainScreen.homeScreenIsDisplayed();
 });
+

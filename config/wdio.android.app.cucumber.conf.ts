@@ -27,7 +27,12 @@ export const config: WebdriverIO.Config = {
     // You also need to specify where your step definitions are located.
     // See also: https://github.com/webdriverio/webdriverio/tree/main/packages/wdio-cucumber-framework#cucumberopts-options
     cucumberOpts: {
-        require: [path.join(__dirname, '..', 'tests', 'steps', 'login_and_signup_steps.ts')],        // <string[]> (file/dir) require files before executing features
+        require: [
+            path.join(__dirname, '..', 'tests', 'steps', 'standard_login_steps.ts'), 
+            path.join(__dirname, '..', 'tests', 'steps', 'locked_login_steps.ts'),
+            path.join(__dirname, '..', 'tests', 'steps', 'empty_login_creds_steps.ts'),
+            path.join(__dirname, '..', 'tests', 'steps', 'empty_password_creds_steps.ts'),
+            path.join(__dirname, '..', 'tests', 'steps', 'unmatched_login_creds_steps.ts')],       // <string[]> (file/dir) require files before executing features
         backtrace: false,   // <boolean> show full backtrace for errors
         compiler: [],       // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
         dryRun: false,      // <boolean> invoke formatters without executing steps
