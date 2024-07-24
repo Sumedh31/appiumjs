@@ -25,11 +25,7 @@ export const config: WebdriverIO.Config = {
     // See also: https://github.com/webdriverio/webdriverio/tree/main/packages/wdio-cucumber-framework#cucumberopts-options
     cucumberOpts: {
         require: [
-            path.join(__dirname, '..', 'tests', 'steps', 'standard_login_steps.ts'), 
-            path.join(__dirname, '..', 'tests', 'steps', 'locked_login_steps.ts'),
-            path.join(__dirname, '..', 'tests', 'steps', 'empty_login_creds_steps.ts'),
-            path.join(__dirname, '..', 'tests', 'steps', 'empty_password_creds_steps.ts'),
-            path.join(__dirname, '..', 'tests', 'steps', 'unmatched_login_creds_steps.ts')],       // <string[]> (file/dir) require files before executing features
+            path.join(__dirname, '..', 'tests', 'steps', 'login_steps.ts')],       // <string[]> (file/dir) require files before executing features
         backtrace: false,   // <boolean> show full backtrace for errors
         compiler: [],       // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
         dryRun: false,      // <boolean> invoke formatters without executing steps
@@ -39,7 +35,7 @@ export const config: WebdriverIO.Config = {
         strict: false,      // <boolean> fail if there are any undefined or pending steps
         timeout: 20000,     // <number> timeout for step definitions
         ignoreUndefinedDefinitions: false, // <boolean> Enable this config to treat undefined definitions as warnings.
-        scenarioLevelReporter: false // Enable this to make webdriver.io behave as if scenarios and not steps were the tests.
+        scenarioLevelReporter: true // Enable this to make webdriver.io behave as if scenarios and not steps were the tests.
     },
     // ============
     // Capabilities
@@ -74,4 +70,17 @@ export const config: WebdriverIO.Config = {
             'appium:newCommandTimeout': 240,
         },
     ],
+    beforeScenario: async () => {
+        const appPath = join(
+            process.cwd(),
+            'apps',
+            'Android-MyDemoAppRN.1.3.0.build-244.apk'
+        );        
+        await driver.installApp(appPath);  // This will reset the app before each scenario
+        await driver.activateApp('com.saucelabs.mydemoapp.rn');
+    },
+
+    afterScenario: async () => {
+        await driver.removeApp('com.saucelabs.mydemoapp.rn');  // Remove the app after each scenario
+    },
 };
